@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import ru.gb.gbthymeleafwinter.entity.Product;
 import ru.gb.gbthymeleafwinter.entity.enums.Status;
+import ru.gb.gbthymeleafwinter.service.CartService;
 import ru.gb.gbthymeleafwinter.service.ProductService;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class GbThymeleafWinterApplication {
         ConfigurableApplicationContext context = SpringApplication.run(GbThymeleafWinterApplication.class, args);
 
         ProductService productService = context.getBean(ProductService.class);
+//        CartService cartService = context.getBean(CartService.class);
 //
 //        productService.findAll();
 //
