@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div th:replace="~{navbar :: navi(ProductList)}"/>
+<div th:replace="~{navbar :: navi(Cart)}"/>
 
 <div class="container">
 
@@ -24,9 +24,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Наименование</th>
                 <th scope="col">Цена</th>
-                <th scope="col">Редактировать</th>
-                <th scope="col">Удалить</th>
-                <th scope="col">Добавить в корзину</th>
+                <th scope="col">Удалить из корзины</th>
             </tr>
             </thead>
             <tbody>
@@ -37,13 +35,7 @@
                 <td th:text="${product.title}"></td>
                 <td th:text="${product.cost}"></td>
                 <td>
-                    <a type="button" th:href="@{/product(id=${product.id})}" class="btn btn-warning">Редактировать</a>
-                </td>
-                <td>
-                    <a type="button" th:href="@{/product/delete(id=${product.id})}" class="btn btn-danger">Удалить</a>
-                </td>
-                <td>
-                    <a type="button" th:href="@{/product/addToCart(id=${product.id})}" class="btn btn-success">Добавить в корзину</a>
+                    <a type="button" th:href="@{/product/deleteFromCart(id=${product.id})}" class="btn btn-success">Удалить из корзины</a>
                 </td>
             </tr>
             </tbody>

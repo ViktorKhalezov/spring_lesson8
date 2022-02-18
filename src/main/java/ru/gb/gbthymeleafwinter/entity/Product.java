@@ -11,9 +11,11 @@ import ru.gb.gbthymeleafwinter.entity.enums.Status;
 
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Setter
@@ -21,6 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Transactional
 @Entity
 @Table(name = "product")
 @EntityListeners(AuditingEntityListener.class)
@@ -53,6 +56,11 @@ public class Product {
     @Column(name = "LAST_MODIFIED_DATE")
     private LocalDateTime lastModifiedDate;
 
+    @ManyToMany
+    @JoinTable(name = "cart_product",
+    joinColumns = @JoinColumn(name = "product_id"),
+    inverseJoinColumns = @JoinColumn(name = "cart_id"))
+    private Set<Cart> carts;
 
     @Override
     public String toString() {
@@ -62,5 +70,18 @@ public class Product {
                 ", cost=" + cost +
                 ", date=" + date +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id.equals(product.id) && title.equals(product.title) && cost.equals(product.cost) && date.equals(product.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, cost, date);
     }
 }

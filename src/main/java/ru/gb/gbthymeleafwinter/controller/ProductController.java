@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.gbthymeleafwinter.entity.Product;
+import ru.gb.gbthymeleafwinter.service.CartService;
 import ru.gb.gbthymeleafwinter.service.ProductService;
 
 @Controller
@@ -13,6 +14,8 @@ import ru.gb.gbthymeleafwinter.service.ProductService;
 public class ProductController {
 
     private final ProductService productService;
+
+    private final CartService cartService;
 
     @GetMapping("/all")
     public String getProductList(Model model) {
@@ -43,6 +46,24 @@ public class ProductController {
     public String deleteById(@RequestParam(name = "id") Long id) {
         productService.deleteById(id);
         return "redirect:/product/all";
+    }
+
+    @GetMapping("/cart")
+    public String showCart(Model model) {
+        model.addAttribute("products", cartService.getProducts());
+        return "cart";
+    }
+
+    @GetMapping("/addToCart")
+    public String addProductToCart(@RequestParam(name = "id") Long id){
+        cartService.addProduct(productService.findById(id));
+        return "redirect:/product/all";
+    }
+
+    @GetMapping("/deleteFromCart")
+    public String deleteProductFromCart(@RequestParam(name = "id") Long id) {
+        cartService.deleteProduct(productService.findById(id));
+        return "redirect:/product/cart";
     }
 
 }
