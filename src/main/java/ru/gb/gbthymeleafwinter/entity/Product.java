@@ -8,15 +8,14 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import ru.gb.gbthymeleafwinter.entity.enums.Status;
-
-
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Set;
+
+
 
 @Setter
 @Getter
@@ -56,11 +55,12 @@ public class Product {
     @Column(name = "LAST_MODIFIED_DATE")
     private LocalDateTime lastModifiedDate;
 
-    @ManyToMany
-    @JoinTable(name = "cart_product",
-    joinColumns = @JoinColumn(name = "product_id"),
-    inverseJoinColumns = @JoinColumn(name = "cart_id"))
-    private Set<Cart> carts;
+//    @ManyToMany(mappedBy = "products")
+//    @JoinTable(name = "cart_product",
+//    joinColumns = @JoinColumn(name = "product_id"),
+//    inverseJoinColumns = @JoinColumn(name = "cart_id"))
+//    @JsonBackReference
+//    private Set<Cart> carts;
 
     @Override
     public String toString() {

@@ -1,11 +1,14 @@
 package ru.gb.gbthymeleafwinter.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.springframework.context.annotation.Scope;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
 
 @Setter
 @Getter
@@ -14,6 +17,7 @@ import java.util.Set;
 @Builder
 @Transactional
 @Entity
+@Scope("prototype")
 @Table(name = "cart")
 public class Cart {
 
@@ -23,7 +27,8 @@ public class Cart {
 
     private String status = "not empty";
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "cart_product",
     joinColumns = @JoinColumn(name = "cart_id"),
     inverseJoinColumns = @JoinColumn(name = "product_id"))
