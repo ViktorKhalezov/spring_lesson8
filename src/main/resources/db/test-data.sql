@@ -1,3 +1,17 @@
+insert into account_user(username, password, firstname, lastname, account_non_expired, account_non_locked, credentials_non_expired, enabled)
+values ('user', '$2a$10$f6V82VnVngl6zmbmcJ2obe9kGLc3s88nXmw1c9yxieEbghhR2wZFi', 'Иван', 'Петров', true, true, true, true);
+
+insert into account_user(username, password, firstname, lastname, account_non_expired, account_non_locked, credentials_non_expired, enabled)
+values ('admin', '$2a$10$bVyurHXDY5dTMORwBAoS1urcmDe0/mq5JhWqJqursH0cZOxwzbI1K', 'Владимир', 'Иванов', true, true, true, true);
+
+
+insert into authority(role) values('USER'), ('ADMIN');
+
+insert into user_authority (user_id, authority_id)
+values (1, 1), (2, 2);
+
+
+
 insert into MANUFACTURER (name) values ('Oxford Industries, Inc.');
 insert into MANUFACTURER (name) values ('CHS Inc');
 insert into MANUFACTURER (name) values ('FIRST REPUBLIC BANK');
