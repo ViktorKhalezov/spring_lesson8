@@ -7,9 +7,29 @@ values ('admin', '$2a$10$bVyurHXDY5dTMORwBAoS1urcmDe0/mq5JhWqJqursH0cZOxwzbI1K',
 
 insert into authority(role) values('USER'), ('ADMIN');
 
+
 insert into user_authority (user_id, authority_id)
 values (1, 1), (2, 2);
 
+
+
+insert into authority(permission) values
+    ('product.create'),
+    ('product.read'),
+    ('product.update'),
+    ('product.delete');
+
+
+insert into account_role(name)
+    values('ROLE_USER'),
+    ('ROLE_ADMIN');
+
+insert into role_authority (role_id, authority_id)
+    values(1, 2), (2, 1),
+    (2, 2), (2, 3), (2, 4);
+
+insert into user_role (user_id, role_id)
+values(1, 1), (2, 2);
 
 
 insert into MANUFACTURER (name) values ('Oxford Industries, Inc.');

@@ -1,6 +1,7 @@
 package ru.gb.gbthymeleafwinter.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,14 @@ public class ProductController {
     private final CartService cartService;
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('product.read')")
     public String getProductList(Model model) {
         model.addAttribute("products", productService.findAll());
         return "product-list";
     }
 
     @GetMapping("/{productId}")
+    @PreAuthorize("hasAuthority('product.read')")
     public String info(Model model, @PathVariable(name = "productId") Long id) {
         Product product;
         if(id != null) {
@@ -36,6 +39,7 @@ public class ProductController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('product.create, product.update')")
     public String showForm(Model model, @RequestParam(name = "id", required = false) Long id) {
         Product product;
 
@@ -49,12 +53,14 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('product.create, product.update')")
     public String saveProduct(Product product) {
         productService.save(product);
         return "redirect:/product/all";
     }
 
     @GetMapping("/delete")
+    @PreAuthorize("hasAuthority('product.delete')")
     public String deleteById(@RequestParam(name = "id") Long id) {
         productService.deleteById(id);
         return "redirect:/product/all";
@@ -77,5 +83,6 @@ public class ProductController {
         cartService.deleteProduct(productService.findById(id));
         return "redirect:/product/cart";
     }
+
 
 }
