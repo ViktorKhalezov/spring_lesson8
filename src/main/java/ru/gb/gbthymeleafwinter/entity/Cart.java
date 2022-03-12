@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.transaction.annotation.Transactional;
+import ru.gb.gbthymeleafwinter.entity.security.AccountRole;
+import ru.gb.gbthymeleafwinter.entity.security.Authority;
+
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 
@@ -27,12 +28,15 @@ public class Cart {
 
     private String status = "not empty";
 
+
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "cart_product",
-    joinColumns = @JoinColumn(name = "cart_id"),
-    inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> products = new HashSet<>();
+ //   joinColumns = @JoinColumn(name = "cart_id"),
+ //   inverseJoinColumns = @JoinColumn(name = "product_id"))
+        joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "ID")},
+        inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "ID")})
+    private Set<Product> products;
 
 
     public Cart(Product product) {
@@ -48,16 +52,6 @@ public class Cart {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cart cart = (Cart) o;
-        return id.equals(cart.id) && status.equals(cart.status) && products.equals(cart.products);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, status, products);
-    }
 }
+
+

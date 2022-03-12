@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Navbar</title>
 </head>
 <body>
 
@@ -18,11 +18,15 @@
                 <li class="nav-item">
                     <a class="nav-link" th:classappend="${activeTab == 'ProductList' ? 'active' : ''}" aria-current="page" th:href="@{/product/all}">Список продуктов</a>
                 </li>
-                <li class="nav-item" sec:authorize="hasAnyAuthority('product.create, product.update')">
+                <li class="nav-item" sec:authorize="hasAnyAuthority('product.create', 'product.update')">
                     <a class="nav-link" th:classappend="${activeTab == 'ProductForm' ? 'active' : ''}" th:href="@{/product}">Добавить продукт</a>
                 </li>
-                <li class="nav-item" sec:authorize="hasAuthority('product.read')">
-                    <a class="nav-link" th:classappend="${activeTab == 'Cart' ? 'active' : ''}" th:href="@{/product/cart}">Корзина</a>
+                <li class="nav-item" sec:authorize="hasAuthority('cart.read')">
+                    <a class="nav-link" th:classappend="${activeTab == 'Cart' ? 'active' : ''}" th:href="@{/cart}">Корзина</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" th:classappend="${activeTab == 'RegistrationForm' ? 'active' : ''}" th:href="@{/authorizeRefPage/registrationForm}">Регистрация</a>
                 </li>
 
                 <li class="nav-item" sec:authorize="isAnonymous()">

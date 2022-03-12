@@ -1,6 +1,7 @@
 package ru.gb.gbthymeleafwinter.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,13 +10,16 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.gb.gbthymeleafwinter.entity.enums.Status;
+import ru.gb.gbthymeleafwinter.entity.security.AccountRole;
+import ru.gb.gbthymeleafwinter.entity.security.Authority;
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
+import java.util.Set;
 
 
 @Setter
@@ -57,12 +61,18 @@ public class Product {
     @Column(name = "LAST_MODIFIED_DATE")
     private LocalDateTime lastModifiedDate;
 
+
 //    @ManyToMany(mappedBy = "products")
 //    @JoinTable(name = "cart_product",
 //    joinColumns = @JoinColumn(name = "product_id"),
 //    inverseJoinColumns = @JoinColumn(name = "cart_id"))
-//    @JsonBackReference
-//    private Set<Cart> carts;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "cart_product",
+        joinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")},
+        inverseJoinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "ID")})
+    @JsonBackReference
+    private Set<Cart> carts;
+
 
     @Override
     public String toString() {
@@ -74,16 +84,6 @@ public class Product {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id.equals(product.id) && title.equals(product.title) && cost.equals(product.cost) && date.equals(product.date);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, cost, date);
-    }
 }
+
