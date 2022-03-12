@@ -27,7 +27,7 @@
                 <th scope="col" sec:authorize="hasAuthority('product.update')">Редактировать</th>
                 <th scope="col" sec:authorize="hasAuthority('product.delete')">Удалить</th>
                 <th scope="col" sec:authorize="hasAuthority('product.read') || isAnonymous()">Просмотр</th>
-                <th scope="col" sec:authorize="hasAuthority('product.read') || isAnonymous()">Корзина</th>
+                <th scope="col" sec:authorize="hasAuthority('cart.read') || isAnonymous()">Корзина</th>
             </tr>
             </thead>
             <tbody>
@@ -46,8 +46,8 @@
                 <td sec:authorize="hasAuthority('product.read') || isAnonymous()">
                     <a type="button" th:href="@{'/product/' + ${product.id}}" class="btn btn-success">Посмотреть товар</a>
                 </td>
-                <td sec:authorize="hasAuthority('product.read')">
-                    <a type="button" th:href="@{/product/addToCart(id=${product.id})}" class="btn btn-warning">Добавить в корзину</a>
+                <td sec:authorize="hasAnyAuthority('cart.read', 'cart.add_product')">
+                    <a type="button" th:href="@{/cart/addToCart(id=${product.id})}" class="btn btn-warning">Добавить в корзину</a>
                 </td>
                 <td sec:authorize="isAnonymous()">
                     <a type="button" th:href="@{/authorizeRefPage}" class="btn btn-warning">Добавить в корзину</a>
